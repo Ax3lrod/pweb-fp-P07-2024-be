@@ -4,6 +4,7 @@ import InvoiceHistory from "../models/InvoiceHistory";
 import RoomOccupancy from "../models/RoomOccupancy";
 import DamageReporting from "../models/DamageReporting";
 import UserReport from "../models/UserReport";
+import DetailPenghuni from "../models/DetailPenghuni";
 
 // POST /admin/dashboard
 export const addRoomOccupancy = async (req: Request, res: Response) => {
@@ -98,3 +99,24 @@ export const getAnonymousReports = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error retrieving anonymous reports", error });
   }
 };
+
+// POST /admin/detailpenghuni
+export const addDetailPenghuni = async (req: Request, res: Response) => {
+    const { userId, StatusPembayaran,TanggalPembayaran, TagihanBulan } = req.body;
+    try {
+      const newReport = await DetailPenghuni.create({ userId, StatusPembayaran,TanggalPembayaran, TagihanBulan });
+      res.status(201).json(newReport);
+    } catch (error) {
+      res.status(500).json({ message: "Error adding facility report", error });
+    }
+  };
+
+// GET /admin/detailpenghuni
+export const getDetailPenghuni = async (req: Request, res: Response) => {
+    try {
+      const reports = await DetailPenghuni.find({ userId: { $ne: null } }).populate("userId", "username");
+      res.json({ reports });
+    } catch (error) {
+      res.status(500).json({ message: "Error retrieving facility reports", error });
+    }
+  };

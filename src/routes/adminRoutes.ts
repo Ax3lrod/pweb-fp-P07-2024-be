@@ -8,6 +8,8 @@ import {
   addRoomOccupancy,
   addFacilityReport,
   addAnonymousReport,
+  addDetailPenghuni,
+  getDetailPenghuni,
 } from "../controllers/adminController";
 
 const router = express.Router();
@@ -56,6 +58,15 @@ router.delete("/laporan/fasilitas", (req, res) => {
 );
 router.delete("/laporan/penghuni", (req, res) => {
     removePenghuni(req, res);
+}
+);
+
+router.post("/penghuni", (req, res) => {
+    addDetailPenghuni(req, res);
+}
+);
+router.get("/penghuni", (req, res) => {
+    getDetailPenghuni(req, res);
 }
 );
 
