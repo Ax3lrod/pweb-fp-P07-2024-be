@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import User from "../models/User";
+import { defineEventHandler } from 'h3'; // Assuming 'h3' is the correct module name
 
 dotenv.config();
 
@@ -48,3 +49,16 @@ const protect = async (
 };
 
 export default protect;
+import { H3Event } from 'h3';
+
+export const eventHandler = defineEventHandler(async (event: H3Event) => {
+  const token = event.req.headers.authorization?.split(' ')[1];
+  if (!token || !isValidAdminToken(token)) {
+      throw new Error('Unauthorized');
+  }
+});
+
+function isValidAdminToken(token: string): boolean {
+  // Validasi token
+  return true;
+}

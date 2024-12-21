@@ -1,12 +1,11 @@
 import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import cors from "cors";
 
 import { connectDB } from "./config/database";
+import  adminRoutes from "./routes/adminRoutes";
 import healthRoutes from "./routes/healthRoutes";
 import authRoutes from "./routes/authRoutes";
-import e from "express";
 
 dotenv.config();
 
@@ -30,6 +29,7 @@ app.get("/", (_, res) => {
 
 app.use("/api", healthRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({
