@@ -120,3 +120,59 @@ export const getDetailPenghuni = async (req: Request, res: Response) => {
       res.status(500).json({ message: "Error retrieving facility reports", error });
     }
   };
+
+
+// DELETE /admin/penghuni/:id
+/*export const deletePenghuni = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      // Hapus data penghuni berdasarkan ID
+      const penghuni = await DetailPenghuni.findByIdAndDelete(id);
+      if (!penghuni) return res.status(404).json({ message: "Penghuni not found" });
+  
+      res.json({ message: `Penghuni with ID ${id} removed successfully` });
+    } catch (error) {
+      res.status(500).json({ message: "Error removing penghuni", error });
+    }
+  };
+
+  // DELETE /admin/penghuni/:id
+export const deletePenghuni = async (req: Request, res: Response) => {
+  const { id } = req.params; // Mengambil ID dari parameter URL
+  try {
+    // Hapus data penghuni berdasarkan _id
+    const penghuni = await DetailPenghuni.findByIdAndDelete(id);
+    if (!penghuni) return res.status(404).json({ message: "Penghuni not found" });
+
+    res.json({ message: `Penghuni with id ${id} removed successfully` });
+  } catch (error) {
+    res.status(500).json({ message: "Error removing penghuni", error });
+  }
+};*/
+
+// DELETE /admin/penghuni/:id
+export const deletePenghuni = async (req: Request, res: Response) => {
+  const { id } = req.params; 
+  try {
+    const penghuni = await DetailPenghuni.findByIdAndDelete(id);
+
+    if (!penghuni) {
+      return res.status(404).json({ message: "Penghuni not found" });
+    }
+
+    res.json({
+      message: `Penghuni with _id ${id} removed successfully`,
+      deletedData: {
+        userId: penghuni.userId,
+        StatusPembayaran: penghuni.StatusPembayaran,
+        TanggalPembayaran: penghuni.TanggalPembayaran,
+        TagihanBulan: penghuni.TagihanBulan,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error removing penghuni", error });
+  }
+};
+
+
+  
